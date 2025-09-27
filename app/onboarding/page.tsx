@@ -27,6 +27,8 @@ const onboardingSteps = [
   },
 ]
 
+export const dynamic = 'force-dynamic'
+
 export default function OnboardingPage() {
   const [currentStep, setCurrentStep] = useState(0)
   const [loading, setLoading] = useState(false)

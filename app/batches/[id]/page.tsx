@@ -11,6 +11,8 @@ interface BatchPageProps {
   params: Promise<{ id: string }>
 }
 
+export const dynamic = 'force-dynamic'
+
 export default function BatchPage({ params }: BatchPageProps) {
   const [batch, setBatch] = useState<any>(null)
   const [loading, setLoading] = useState(true)

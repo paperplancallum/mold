@@ -8,6 +8,8 @@ import Link from 'next/link'
 import SeverityBadge from '@/components/SeverityBadge'
 import OnboardingTutorial from '@/components/OnboardingTutorial'
 
+export const dynamic = 'force-dynamic'
+
 export default function DashboardPage() {
   const [user, setUser] = useState<any>(null)
   const [tests, setTests] = useState<any[]>([])
