@@ -1,6 +1,7 @@
 import { redirect } from 'next/navigation'
 import { checkAdminAccess } from '@/lib/admin'
 import Link from 'next/link'
+import AdminDashboardClient from './AdminDashboardClient'
 
 export const dynamic = 'force-dynamic'
 
@@ -42,11 +43,7 @@ export default async function AdminDashboard() {
           Admin Dashboard
         </h1>
 
-        <div className="rounded-lg bg-white p-8 shadow">
-          <p className="text-gray-600">
-            Admin dashboard features coming soon...
-          </p>
-        </div>
+        <AdminDashboardClient />
       </div>
     </div>
   )
