@@ -90,7 +90,8 @@ export async function GET(request: Request) {
           file_name
         ),
         analysis_results (
-          severity
+          severity,
+          confidence
         )
       `)
       .eq('user_id', user.id)
@@ -118,10 +119,20 @@ export async function GET(request: Request) {
 
     const testsWithUrls = tests.map(test => {
       const image = test.test_images?.[0]
+      const analysisResults = Array.isArray(test.analysis_results)
+        ? test.analysis_results[0]
+        : test.analysis_results
+      
       return {
         ...test,
-        image_url: image ? `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/${process.env.NEXT_PUBLIC_SUPABASE_STORAGE_BUCKET}/${image.storage_path}` : null,
-        severity: test.analysis_results?.[0]?.severity || null,
+        image: image ? {
+          ...image,
+          public_url: `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/${process.env.NEXT_PUBLIC_SUPABASE_STORAGE_BUCKET}/${image.storage_path}`,
+        } : null,
+        analysis: analysisResults ? {
+          severity: analysisResults.severity,
+          confidence: analysisResults.confidence,
+        } : null,
         test_images: undefined,
         analysis_results: undefined,
       }
