@@ -2,10 +2,12 @@
 
 import { useState, useEffect, use } from 'react'
 import { useRouter } from 'next/navigation'
+import { parseTestUrl } from '@/lib/url-utils'
 import ImageUpload from '@/components/ImageUpload'
 
 export default function UploadPage({ params }: { params: Promise<{ id: string }> }) {
-  const { id } = use(params)
+  const { id: rawId } = use(params)
+  const id = parseTestUrl(rawId)
   const [test, setTest] = useState<any>(null)
   const [uploading, setUploading] = useState(false)
   const [error, setError] = useState('')
@@ -47,16 +49,7 @@ export default function UploadPage({ params }: { params: Promise<{ id: string }>
         throw new Error(data.error || 'Upload failed')
       }
 
-      const analyzeResponse = await fetch(`/api/tests/${id}/analyze`, {
-        method: 'POST',
-      })
-
-      if (!analyzeResponse.ok) {
-        const data = await analyzeResponse.json()
-        throw new Error(data.error || 'Analysis failed')
-      }
-
-      router.push(`/tests/${id}/analyzing`)
+      router.push('/dashboard')
     } catch (err: any) {
       setError(err.message || 'Upload failed')
       setUploading(false)

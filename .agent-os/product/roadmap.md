@@ -26,13 +26,13 @@
 
 ### Features
 
-- [ ] Test setup form with validation (duration, temperature, humidity, location) - `M`
-- [ ] Mobile camera integration with HTML5 Media API - `L`
-- [ ] Desktop image upload functionality - `S`
-- [ ] Image storage in Supabase Storage - `M`
-- [ ] OpenAI GPT-4 Vision API integration for mold analysis - `L`
-- [ ] Results display page with mold types, severity, and recommendations - `M`
-- [ ] Loading states and progress indicators during analysis - `S`
+- [x] Test setup form with validation (duration, temperature, humidity, location) - `M`
+- [x] Mobile camera integration with HTML5 Media API - `L`
+- [x] Desktop image upload functionality - `S`
+- [x] Image storage in Supabase Storage - `M`
+- [x] OpenAI GPT-4 Vision API integration for mold analysis - `L`
+- [x] Results display page with mold types, severity, and recommendations - `M`
+- [x] Loading states and progress indicators during analysis - `S`
 
 ### Dependencies
 
@@ -47,13 +47,13 @@
 
 ### Features
 
-- [ ] Test history page with chronological list - `M`
-- [ ] Individual test detail view from history - `S`
-- [ ] Delete test functionality - `S`
-- [ ] Comprehensive error handling and user-friendly messages - `M`
-- [ ] Onboarding tutorial for first-time users - `M`
-- [ ] Visual photo guide (circular overlay) for image capture - `S`
-- [ ] Mobile UI/UX optimization and testing - `L`
+- [x] Test history page with chronological list - `M`
+- [x] Individual test detail view from history - `S`
+- [x] Delete test functionality - `S`
+- [x] Comprehensive error handling and user-friendly messages - `M`
+- [x] Onboarding tutorial for first-time users - `M`
+- [x] Visual photo guide (circular overlay) for image capture - `S`
+- [x] Mobile UI/UX optimization and testing - `L`
 
 ### Dependencies
 

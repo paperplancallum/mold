@@ -92,6 +92,9 @@ export async function GET(request: Request) {
         analysis_results (
           severity,
           confidence
+        ),
+        batches (
+          display_id
         )
       `)
       .eq('user_id', user.id)
@@ -125,6 +128,8 @@ export async function GET(request: Request) {
       
       return {
         ...test,
+        display_id: test.display_id,
+        batch_display_id: test.batches?.display_id || null,
         image: image ? {
           ...image,
           public_url: `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/${process.env.NEXT_PUBLIC_SUPABASE_STORAGE_BUCKET}/${image.storage_path}`,
@@ -135,6 +140,7 @@ export async function GET(request: Request) {
         } : null,
         test_images: undefined,
         analysis_results: undefined,
+        batches: undefined,
       }
     })
 

@@ -1,4 +1,5 @@
 import { createClient } from '@/lib/supabase/server'
+import { parseTestUrl } from '@/lib/url-utils'
 import { NextResponse } from 'next/server'
 
 const MAX_FILE_SIZE = 10 * 1024 * 1024
@@ -9,7 +10,16 @@ export async function POST(
   { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const { id: testId } = await params
+    const { id: rawId } = await params
+    const displayId = parseInt(parseTestUrl(rawId), 10)
+    
+    if (isNaN(displayId)) {
+      return NextResponse.json(
+        { error: 'Invalid test ID', code: 'INVALID_ID' },
+        { status: 400 }
+      )
+    }
+    
     const supabase = await createClient()
     
     const { data: { user }, error: authError } = await supabase.auth.getUser()
@@ -20,8 +30,8 @@ export async function POST(
     const { data: test } = await supabase
       .from('tests')
       .select('id')
-      .eq('id', testId)
       .eq('user_id', user.id)
+      .eq('display_id', displayId)
       .single()
 
     if (!test) {
@@ -57,7 +67,7 @@ export async function POST(
 
     const fileExt = file.name.split('.').pop()
     const fileName = `${Date.now()}.${fileExt}`
-    const filePath = `${user.id}/${testId}/${fileName}`
+    const filePath = `${user.id}/${test.id}/${fileName}`
 
     const { data: uploadData, error: uploadError } = await supabase.storage
       .from(process.env.NEXT_PUBLIC_SUPABASE_STORAGE_BUCKET!)
@@ -77,7 +87,7 @@ export async function POST(
     const { data: imageRecord, error: insertError } = await supabase
       .from('test_images')
       .insert({
-        test_id: testId,
+        test_id: test.id,
         storage_path: uploadData.path,
         file_name: file.name,
         file_size: file.size,
@@ -99,6 +109,12 @@ export async function POST(
     }
 
     const publicUrl = `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/${process.env.NEXT_PUBLIC_SUPABASE_STORAGE_BUCKET}/${uploadData.path}`
+
+    await supabase
+      .from('tests')
+      .update({ status: 'ready_for_review' })
+      .eq('user_id', user.id)
+      .eq('display_id', displayId)
 
     return NextResponse.json({
       image_id: imageRecord.id,

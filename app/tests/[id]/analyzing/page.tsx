@@ -2,9 +2,11 @@
 
 import { useEffect, useState, use } from 'react'
 import { useRouter } from 'next/navigation'
+import { parseTestUrl, createTestUrl } from '@/lib/url-utils'
 
 export default function AnalyzingPage({ params }: { params: Promise<{ id: string }> }) {
-  const { id } = use(params)
+  const { id: rawId } = use(params)
+  const id = parseTestUrl(rawId)
   const [error, setError] = useState('')
   const router = useRouter()
 
@@ -21,7 +23,8 @@ export default function AnalyzingPage({ params }: { params: Promise<{ id: string
         const test = data.test
 
         if (test.status === 'completed') {
-          router.push(`/tests/${id}`)
+          const testUrl = createTestUrl({ display_id: test.display_id })
+          router.push(testUrl)
         } else if (test.status === 'failed') {
           setError('Analysis failed. Please try again or contact support.')
         }

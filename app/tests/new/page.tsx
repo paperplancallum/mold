@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
+import { createTestUrl } from '@/lib/url-utils'
 import Link from 'next/link'
 
 export default function NewTestPage() {
@@ -53,7 +54,8 @@ export default function NewTestPage() {
       }
 
       const test = await response.json()
-      router.push(`/tests/${test.id}/upload`)
+      const testUrl = createTestUrl({ display_id: test.display_id })
+      router.push(`${testUrl}/upload`)
     } catch (err) {
       setError('Unable to connect. Please try again.')
       setLoading(false)
@@ -143,7 +145,7 @@ export default function NewTestPage() {
                     htmlFor="temperature"
                     className="block text-sm font-medium text-gray-700"
                   >
-                    Temperature (°F)
+                    Temperature (°F) <span className="text-gray-500">(optional)</span>
                   </label>
                   <input
                     id="temperature"
@@ -162,7 +164,7 @@ export default function NewTestPage() {
                     htmlFor="humidity"
                     className="block text-sm font-medium text-gray-700"
                   >
-                    Humidity (%)
+                    Humidity (%) <span className="text-gray-500">(optional)</span>
                   </label>
                   <input
                     id="humidity"
