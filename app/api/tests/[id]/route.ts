@@ -33,7 +33,9 @@ export async function GET(
     }
 
     const image = test.test_images?.[0]
-    const analysis = test.analysis_results?.[0]
+    const analysis = Array.isArray(test.analysis_results) 
+      ? test.analysis_results[0] 
+      : test.analysis_results
 
     const formattedTest = {
       ...test,
