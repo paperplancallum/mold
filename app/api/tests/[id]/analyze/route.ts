@@ -75,7 +75,13 @@ export async function POST(
 
       let analysis
       try {
-        analysis = JSON.parse(content)
+        let jsonContent = content.trim()
+        if (jsonContent.startsWith('```json')) {
+          jsonContent = jsonContent.replace(/^```json\s*/, '').replace(/\s*```$/, '')
+        } else if (jsonContent.startsWith('```')) {
+          jsonContent = jsonContent.replace(/^```\s*/, '').replace(/\s*```$/, '')
+        }
+        analysis = JSON.parse(jsonContent)
       } catch (parseError) {
         console.error('Failed to parse OpenAI response:', content)
         throw new Error('Invalid JSON response from AI')
