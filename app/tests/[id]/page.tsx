@@ -305,7 +305,7 @@ export default function TestResultsPage({ params }: { params: Promise<{ id: stri
                               moderate: '50%',
                               high: '75%',
                               extensive: '100%'
-                            }[analysis.colony_count_estimate] || '50%'}` 
+                            }[analysis.colony_count_estimate as 'low' | 'moderate' | 'high' | 'extensive'] || '50%'}` 
                           }}
                         />
                       </div>
@@ -328,7 +328,7 @@ export default function TestResultsPage({ params }: { params: Promise<{ id: stri
                               sparse: '33%',
                               moderate: '66%',
                               dense: '100%'
-                            }[analysis.growth_density] || '66%'}` 
+                            }[analysis.growth_density as 'sparse' | 'moderate' | 'dense'] || '66%'}` 
                           }}
                         />
                       </div>
