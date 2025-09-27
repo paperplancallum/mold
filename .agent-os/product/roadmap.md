@@ -7,11 +7,11 @@
 
 ### Features
 
-- [ ] Supabase project setup and configuration - `S`
+- [x] Supabase project setup and configuration - `S`
 - [ ] User authentication implementation (email/password) - `M`
 - [ ] Password reset functionality - `S`
-- [ ] Database schema design for tests, results, and user data - `M`
-- [ ] Basic responsive layout structure - `S`
+- [x] Database schema design for tests, results, and user data - `M`
+- [x] Basic responsive layout structure - `S`
 
 ### Dependencies
 
