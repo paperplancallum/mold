@@ -8,8 +8,8 @@
 ### Features
 
 - [x] Supabase project setup and configuration - `S`
-- [ ] User authentication implementation (email/password) - `M`
-- [ ] Password reset functionality - `S`
+- [x] User authentication implementation (email/password) - `M`
+- [x] Password reset functionality - `S`
 - [x] Database schema design for tests, results, and user data - `M`
 - [x] Basic responsive layout structure - `S`
 

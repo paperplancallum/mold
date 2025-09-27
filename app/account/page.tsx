@@ -14,6 +14,7 @@ export default function AccountPage() {
   const [loading, setLoading] = useState(false)
   const [deleteConfirm, setDeleteConfirm] = useState('')
   const [deleteLoading, setDeleteLoading] = useState(false)
+  const [showDeleteSection, setShowDeleteSection] = useState(false)
   const router = useRouter()
   const supabase = createClient()
 
@@ -178,43 +179,65 @@ export default function AccountPage() {
 
         <div className="rounded-lg bg-white p-6 shadow">
           <h2 className="text-xl font-semibold text-gray-900">Actions</h2>
-          <div className="mt-4">
+          <div className="mt-4 flex flex-col gap-4">
             <button
               onClick={handleLogout}
               className="rounded-md bg-gray-600 px-4 py-2 text-sm font-semibold text-white hover:bg-gray-500"
             >
               Sign out
             </button>
+            {!showDeleteSection && (
+              <button
+                onClick={() => setShowDeleteSection(true)}
+                className="text-sm text-red-600 hover:text-red-800 underline"
+              >
+                Delete Account
+              </button>
+            )}
           </div>
         </div>
 
-        <div className="rounded-lg border-2 border-red-200 bg-red-50 p-6">
-          <h2 className="text-xl font-semibold text-red-900">Danger Zone</h2>
-          <p className="mt-2 text-sm text-red-700">
-            Once you delete your account, there is no going back. All your test results and data will be permanently deleted.
-          </p>
-          <div className="mt-4">
-            <label htmlFor="deleteConfirm" className="block text-sm font-medium text-red-900">
-              Type DELETE to confirm
-            </label>
-            <input
-              id="deleteConfirm"
-              name="deleteConfirm"
-              type="text"
-              value={deleteConfirm}
-              onChange={(e) => setDeleteConfirm(e.target.value)}
-              className="mt-1 block w-full rounded-md border border-red-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:border-red-500 focus:outline-none focus:ring-red-500"
-              placeholder="DELETE"
-            />
+        {showDeleteSection && (
+          <div className="rounded-lg border-2 border-red-200 bg-red-50 p-6">
+            <h2 className="text-xl font-semibold text-red-900">Danger Zone</h2>
+            <p className="mt-2 text-sm text-red-700">
+              Once you delete your account, there is no going back. All your test results and data will be permanently deleted.
+            </p>
+            <div className="mt-4">
+              <label htmlFor="deleteConfirm" className="block text-sm font-medium text-red-900">
+                Type DELETE to confirm
+              </label>
+              <input
+                id="deleteConfirm"
+                name="deleteConfirm"
+                type="text"
+                value={deleteConfirm}
+                onChange={(e) => setDeleteConfirm(e.target.value)}
+                className="mt-1 block w-full rounded-md border border-red-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:border-red-500 focus:outline-none focus:ring-red-500"
+                placeholder="DELETE"
+              />
+            </div>
+            <div className="mt-4 flex gap-2">
+              <button
+                onClick={handleDeleteAccount}
+                disabled={deleteLoading || deleteConfirm !== 'DELETE'}
+                className="rounded-md bg-red-600 px-4 py-2 text-sm font-semibold text-white hover:bg-red-500 disabled:cursor-not-allowed disabled:opacity-50"
+              >
+                {deleteLoading ? 'Deleting...' : 'Delete account permanently'}
+              </button>
+              <button
+                onClick={() => {
+                  setShowDeleteSection(false)
+                  setDeleteConfirm('')
+                  setError('')
+                }}
+                className="rounded-md bg-gray-300 px-4 py-2 text-sm font-semibold text-gray-700 hover:bg-gray-400"
+              >
+                Cancel
+              </button>
+            </div>
           </div>
-          <button
-            onClick={handleDeleteAccount}
-            disabled={deleteLoading || deleteConfirm !== 'DELETE'}
-            className="mt-4 rounded-md bg-red-600 px-4 py-2 text-sm font-semibold text-white hover:bg-red-500 disabled:cursor-not-allowed disabled:opacity-50"
-          >
-            {deleteLoading ? 'Deleting...' : 'Delete account permanently'}
-          </button>
-        </div>
+        )}
 
         {error && (
           <div className="rounded-md bg-red-50 p-4">
