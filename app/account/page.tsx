@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
+import Link from 'next/link'
 
 export default function AccountPage() {
   const [email, setEmail] = useState('')
@@ -117,13 +118,33 @@ export default function AccountPage() {
   return (
     <div className="min-h-screen bg-gray-50 py-12 px-4">
       <div className="mx-auto max-w-3xl space-y-8">
-        <div>
-          <h1 className="text-3xl font-bold tracking-tight text-gray-900">
-            Account Settings
-          </h1>
-          <p className="mt-2 text-sm text-gray-600">
-            Manage your account information and preferences
-          </p>
+        <div className="flex items-center gap-4">
+          <Link
+            href="/dashboard"
+            className="rounded-md p-2 text-gray-600 hover:bg-gray-200 hover:text-gray-900"
+          >
+            <svg
+              className="h-6 w-6"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M10 19l-7-7m0 0l7-7m-7 7h18"
+              />
+            </svg>
+          </Link>
+          <div>
+            <h1 className="text-3xl font-bold tracking-tight text-gray-900">
+              Account Settings
+            </h1>
+            <p className="mt-2 text-sm text-gray-600">
+              Manage your account information and preferences
+            </p>
+          </div>
         </div>
 
         <div className="rounded-lg bg-white p-6 shadow">
