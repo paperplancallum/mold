@@ -59,13 +59,14 @@ export async function POST(
                 type: 'image_url',
                 image_url: {
                   url: imageUrl,
+                  detail: 'high',
                 },
               },
             ],
           },
         ],
-        max_tokens: 1000,
-        temperature: 0.2,
+        max_tokens: 1500,
+        temperature: 0.5,
       })
 
       const content = response.choices[0]?.message?.content
