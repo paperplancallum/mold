@@ -185,22 +185,76 @@ export default function TestResultsPage({ params }: { params: Promise<{ id: stri
 
               <div className="rounded-lg bg-white p-6 shadow">
                 <h2 className="text-xl font-semibold text-gray-900 mb-4">Identified Mold Types</h2>
-                <div className="space-y-3">
-                  {analysis.mold_types.map((mold: any, index: number) => (
-                    <div key={index} className="flex items-center justify-between rounded-lg border border-gray-200 p-4">
-                      <span className="font-medium text-gray-900">{mold.type}</span>
-                      <span className="text-sm text-gray-600">{mold.confidence}% confidence</span>
-                    </div>
-                  ))}
+                <div className="space-y-4">
+                  {analysis.mold_types.map((mold: any, index: number) => {
+                    const confidenceColor = mold.confidence >= 80 ? 'bg-green-600' : mold.confidence >= 60 ? 'bg-blue-600' : 'bg-yellow-600'
+                    return (
+                      <div key={index} className="rounded-lg border border-gray-200 p-4">
+                        <div className="flex items-center justify-between mb-2">
+                          <span className="font-medium text-gray-900">{mold.type}</span>
+                          <span className="text-sm font-semibold text-gray-900">{mold.confidence}%</span>
+                        </div>
+                        <div className="flex items-center gap-3">
+                          <div className="flex-1 h-2 bg-gray-200 rounded-full overflow-hidden">
+                            <div
+                              className={`h-full ${confidenceColor} rounded-full transition-all`}
+                              style={{ width: `${mold.confidence}%` }}
+                            />
+                          </div>
+                        </div>
+                        {mold.identifying_features && (
+                          <p className="mt-2 text-xs text-gray-600">{mold.identifying_features}</p>
+                        )}
+                      </div>
+                    )
+                  })}
                 </div>
-                <div className="mt-4 grid grid-cols-2 gap-4">
+                <div className="mt-6 space-y-4">
                   <div>
-                    <p className="text-sm font-medium text-gray-500">Colony Count</p>
-                    <p className="mt-1 text-lg capitalize text-gray-900">{analysis.colony_count_estimate}</p>
+                    <div className="flex items-center justify-between mb-2">
+                      <p className="text-sm font-medium text-gray-700">Colony Count</p>
+                      <span className="text-sm font-semibold capitalize text-gray-900">{analysis.colony_count_estimate}</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <span className="text-xs text-gray-500">Low</span>
+                      <div className="flex-1 h-2 bg-gray-200 rounded-full overflow-hidden">
+                        <div
+                          className="h-full bg-gradient-to-r from-yellow-400 to-orange-600 rounded-full transition-all"
+                          style={{ 
+                            width: `${{
+                              low: '25%',
+                              moderate: '50%',
+                              high: '75%',
+                              extensive: '100%'
+                            }[analysis.colony_count_estimate] || '50%'}` 
+                          }}
+                        />
+                      </div>
+                      <span className="text-xs text-gray-500">Extensive</span>
+                    </div>
                   </div>
+                  
                   <div>
-                    <p className="text-sm font-medium text-gray-500">Growth Density</p>
-                    <p className="mt-1 text-lg capitalize text-gray-900">{analysis.growth_density}</p>
+                    <div className="flex items-center justify-between mb-2">
+                      <p className="text-sm font-medium text-gray-700">Growth Density</p>
+                      <span className="text-sm font-semibold capitalize text-gray-900">{analysis.growth_density}</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <span className="text-xs text-gray-500">Sparse</span>
+                      <div className="flex-1 h-2 bg-gray-200 rounded-full overflow-hidden">
+                        <div
+                          className="h-full bg-gradient-to-r from-orange-400 to-red-600 rounded-full transition-all"
+                          style={{ 
+                            width: `${{
+                              sparse: '33%',
+                              moderate: '66%',
+                              dense: '100%'
+                            }[analysis.growth_density] || '66%'}` 
+                          }}
+                        />
+                      </div>
+                      <span className="text-xs text-gray-500">Dense</span>
+                    </div>
                   </div>
                 </div>
               </div>
